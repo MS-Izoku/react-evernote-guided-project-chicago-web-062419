@@ -17,13 +17,10 @@ class NoteContainer extends Component {
         name: "flatironschool"
       },
       searchQuery: "",
-      searchFilter: 'all'
+      searchFilter: "all"
     };
   }
 
-  filterSearchResults = () =>{
-
-  }
   // #region FETCH requests
   getNotes = () => {
     fetch("http://localhost:3000/api/v1/notes")
@@ -32,7 +29,7 @@ class NoteContainer extends Component {
       })
       .then(json => {
         // filter stuff here
-        this.setState({ notes: json , allNotes: json });
+        this.setState({ notes: json, allNotes: json });
       });
   };
 
@@ -109,9 +106,25 @@ class NoteContainer extends Component {
 
   // #region state-handlers
   handleSearchQuery = myQuery => {
-    this.setState({notes: this.state.allNotes.filter(note =>{
-      return note.title.toLowerCase().includes(myQuery) || note.body.toLowerCase().includes(myQuery)
-    })})
+    this.setState({
+      notes: this.state.allNotes.filter(note => {
+        //return note.title.toLowerCase().includes(myQuery) || note.body.toLowerCase().includes(myQuery)
+        //return this.filterResults(note, myQuery);
+        if (
+          this.state.searchFilter !== "created-at" ||
+          this.state.searchFilter !== "updated-at"
+        ) {
+          return this.state.searchFilter === "all"
+            ? note.title.toLowerCase().includes(myQuery) ||
+                note.body.toLowerCase().includes(myQuery)
+            : note[this.state.searchFilter].toLowerCase().includes(myQuery);
+        }
+      })
+    });
+  };
+
+  setFilter = filterVal => {
+    this.setState({ searchFilter: filterVal });
   };
 
   editNote = () => {
@@ -134,15 +147,18 @@ class NoteContainer extends Component {
 
   componentDidUpdate(prevState) {
     console.log("Note Container has updated");
+    console.log(this.state.currentNote);
     //console.log(this.state.currentNote);
   }
   //#endregion
 
-
   render() {
     return (
       <Fragment>
-        <Search handleSearchQuery={this.handleSearchQuery} />
+        <Search
+          handleSearchQuery={this.handleSearchQuery}
+          setFilter={this.setFilter}
+        />
         <div className="container">
           <Sidebar
             notes={this.state.notes}
