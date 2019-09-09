@@ -13,6 +13,11 @@ const Search = (props) => {
         placeholder="Search Notes"
         onChange={handleSeachQuery}
       />
+      <select id="filter-by">
+        <option value="all">All</option>
+        <option value="title">Title</option>
+        <option value="tag">Tag</option>
+      </select>
     </div>
   );
 }

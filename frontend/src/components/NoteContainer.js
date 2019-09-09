@@ -16,7 +16,8 @@ class NoteContainer extends Component {
         id: 1,
         name: "flatironschool"
       },
-      searchQuery: ""
+      searchQuery: "",
+      searchFilter: 'all'
     };
   }
 
@@ -108,9 +109,6 @@ class NoteContainer extends Component {
 
   // #region state-handlers
   handleSearchQuery = myQuery => {
-    // this.setState({ searchQuery: myQuery });
-    // // do filtering here
-    //console.log(this.state.searchQuery)
     this.setState({notes: this.state.allNotes.filter(note =>{
       return note.title.toLowerCase().includes(myQuery) || note.body.toLowerCase().includes(myQuery)
     })})
