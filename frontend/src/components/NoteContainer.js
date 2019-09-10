@@ -183,7 +183,7 @@ class NoteContainer extends Component {
         <Search
           handleSearchQuery={this.handleSearchQuery}
           setFilter={this.setFilter}
-          handleNoteSorting={this.handleNoteSorting}
+          // handleNoteSorting={this.handleNoteSorting}
         />
         <div className="container">
           <Sidebar
@@ -193,6 +193,7 @@ class NoteContainer extends Component {
             editingNote={this.state.editingNote}
             createNewNote={this.createNewNote}
             sortBy={this.state.sortBy}
+            handleNoteSorting={this.handleNoteSorting}
           />
           <Content
             currentNote={this.state.currentNote}

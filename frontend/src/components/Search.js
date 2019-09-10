@@ -12,11 +12,11 @@ const Search = (props) => {
     handler(event.target.value);
   }
 
-  function handleSorting(event){
-    console.log(props)
-    const handler = props.handleNoteSorting
-    handler(event.target.value)
-  }
+  // function handleSorting(event){
+  //   console.log(props)
+  //   const handler = props.handleNoteSorting
+  //   handler(event.target.value)
+  // }
 
   return (
     <div className="filter">
@@ -32,12 +32,12 @@ const Search = (props) => {
         <option value="tag">Tag</option>
       </select>
 
-      <select id="sort-by" onChange={handleSorting}>
+      {/* <select id="sort-by" onChange={handleSorting}>
         <option value="default">--Sort--</option>
         <option value="created-at">Newest</option>
         <option value="updated-at">Updated</option>
         <option value="title">Title</option>
-      </select>
+      </select> */}
     </div>
   );
 }
