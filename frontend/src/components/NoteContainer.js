@@ -17,7 +17,8 @@ class NoteContainer extends Component {
         name: "flatironschool"
       },
       searchQuery: "",
-      searchFilter: "all"
+      searchFilter: "all",
+      sortBy: "default"
     };
   }
 
@@ -80,8 +81,8 @@ class NoteContainer extends Component {
       .then(resp => {
         return resp.json();
       })
-      .then(() => {
-        this.setState({ currentNote: freshNote }); // doing this will view the newly created note
+      .then(json => {
+        this.setState({ currentNote: json }); // doing this will view the newly created note
         this.getNotes();
       });
   };
@@ -108,19 +109,18 @@ class NoteContainer extends Component {
   handleSearchQuery = myQuery => {
     this.setState({
       notes: this.state.allNotes.filter(note => {
-        //return note.title.toLowerCase().includes(myQuery) || note.body.toLowerCase().includes(myQuery)
-        //return this.filterResults(note, myQuery);
-        if (
-          this.state.searchFilter !== "created-at" ||
-          this.state.searchFilter !== "updated-at"
-        ) {
-          return this.state.searchFilter === "all"
-            ? note.title.toLowerCase().includes(myQuery) ||
-                note.body.toLowerCase().includes(myQuery)
-            : note[this.state.searchFilter].toLowerCase().includes(myQuery);
-        }
+        return this.state.searchFilter === "all"
+          ? note.title.toLowerCase().includes(myQuery) ||
+              note.body.toLowerCase().includes(myQuery)
+          : note[this.state.searchFilter].toLowerCase().includes(myQuery);
       })
     });
+  };
+
+  // I feel that I could refactor these into a larger, more reusable method/s
+  handleNoteSorting = sortingMethod => {
+    this.setState({ sortBy: sortingMethod });
+
   };
 
   setFilter = filterVal => {
@@ -145,12 +145,37 @@ class NoteContainer extends Component {
     this.getNotes(); // get notes when the component mounts
   }
 
-  componentDidUpdate(prevState) {
-    console.log("Note Container has updated");
-    console.log(this.state.currentNote);
-    //console.log(this.state.currentNote);
-  }
+  parseTime = timeToParse => {
+    //console.log(new Date(this.state.notes[0].created_at).getTime())
+    return new Date(timeToParse).getTime();
+  };
   //#endregion
+  filterNotes = () => {
+    switch (this.state.sortBy) {
+      case "title":
+        return [...this.state.notes].sort((a, b) => {
+          return a.title.localeCompare(b.title);
+        });
+      case "created-at":
+        return [...this.state.notes].sort((a, b) => {
+          if (this.parseTime(a.created_at) < this.parseTime(b.created_at)) {
+            return 1;
+          } else {
+            return -1;
+          }
+        });
+      case "updated-at":
+          return [...this.state.notes].sort((a, b) => {
+            if (this.parseTime(a.updated_at) < this.parseTime(b.updated_at)) {
+              return 1;
+            } else {
+              return -1;
+            }
+          });
+      default:
+        return this.state.notes;
+    }
+  };
 
   render() {
     return (
@@ -158,14 +183,16 @@ class NoteContainer extends Component {
         <Search
           handleSearchQuery={this.handleSearchQuery}
           setFilter={this.setFilter}
+          handleNoteSorting={this.handleNoteSorting}
         />
         <div className="container">
           <Sidebar
-            notes={this.state.notes}
+            notes={this.filterNotes()}
             setSelectedNote={this.setSelectedNote}
             stopEditNote={this.stopEditNote}
             editingNote={this.state.editingNote}
             createNewNote={this.createNewNote}
+            sortBy={this.state.sortBy}
           />
           <Content
             currentNote={this.state.currentNote}

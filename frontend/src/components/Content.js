@@ -13,9 +13,9 @@ import Instructions from "./Instructions";
 class Content extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      currentNote: {},
-    };
+    // this.state = {
+    //   currentNote: {},
+    // };
   }
   renderContent = () => {
     //console.log(this.props)
@@ -47,14 +47,14 @@ class Content extends Component {
     return Object.keys(this.props.currentNote).length !== 0;
   };
 
-  componentDidMount() {
-    this.setState({ currentNote: this.props.currentNote });
-  }
+  // componentDidMount() {
+  //   this.setState({ currentNote: this.props.currentNote });
+  // }
 
-  componentDidUpdate(prevState) {
-    if (this.state.currentNote !== prevState.currentNote)
-      this.setState({ currentNote: this.props.currentNote });
-  }
+  // componentDidUpdate(prevState) {
+  //   if (this.state.currentNote !== prevState.currentNote)
+  //     this.setState({ currentNote: this.props.currentNote });
+  // }
 
   render() {
     return (

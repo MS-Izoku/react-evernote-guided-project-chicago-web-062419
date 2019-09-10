@@ -9,11 +9,30 @@ class Sidebar extends Component {
     };
   }
 
-  handleCreateNew = () =>{
-    const createNewNote = this.props.createNewNote
+  handleCreateNew = () => {
+    const createNewNote = this.props.createNewNote;
     createNewNote();
-  }
+  };
 
+  parseDate = timeToParse => {
+    return new Date(timeToParse).getTime();
+  };
+
+  // filterNotes = () => {
+  //   switch (this.props.sortBy) {
+  //     case "title":
+  //        console.log(this.props.notes.sort())
+  //       break;
+  //     case "created-at":
+  //       break;
+  //     case "updated-at":
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // };
+
+  
   // the new button needs an onClick to create a new note
   render() {
     //console.log(this.props)
@@ -25,6 +44,7 @@ class Sidebar extends Component {
           stopEditNote={this.props.stopEditNote}
         />
         <button onClick={this.handleCreateNew}>New</button>
+
       </div>
     );
   }
