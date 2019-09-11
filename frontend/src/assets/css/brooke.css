@@ -164,7 +164,7 @@ input[type="submit"] {
   width: auto;
 }
 
-button, input[type="submit"] {
+button, input[type="submit"]{
   width: 125px;
   border-radius: 200px;
   margin-right: 10px;
@@ -184,4 +184,23 @@ button:hover, .nav-bar:hover, input[type="submit"]:hover {
 
 button:focus, input[type="submit"]:focus {
   outline: none;
+}
+
+select{
+  width: auto;
+  border: 0px;
+  background-image: linear-gradient(to right top, #8C33E3, #696CE8, #4A9EEC);
+  background-repeat: no-repeat;
+  color: white;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+select.sidebarSelect{
+  width: 100%;
+  min-width: 25vh;
+}
+
+select.filterSelect{
+  width: 16.66%
 }

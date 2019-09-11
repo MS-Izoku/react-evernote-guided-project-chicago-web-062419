@@ -75,7 +75,7 @@ class Sidebar extends Component {
     //console.log(this.props)
     return (
       <div className="master-detail-element sidebar">
-        <select id="sort-by" onChange={this.state.notes !== [] ? this.handleSorting : null}>
+        <select id="sort-by" onChange={this.state.notes !== [] ? this.handleSorting : null} className={'sidebarSelect'}>
           <option value="default">--Sort--</option>
           <option value="created-at">Newest</option>
           <option value="updated-at">Updated</option>

@@ -28,7 +28,7 @@ const Search = (props) => {
         onChange={handleSearchBar}
       />
       {/* <select id="filter-by" onChange={handleFilter}> */}
-      <select id="filter-by" onChange={handleFilter}>
+      <select id="filter-by" onChange={handleFilter} className={'filterSelect'}>
         <option value="all">--Filter--</option>
         <option value="title">Title</option>
         <option value="body">Body</option>
