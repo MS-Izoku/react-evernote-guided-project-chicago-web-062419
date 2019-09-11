@@ -11,12 +11,6 @@ import Instructions from "./Instructions";
           refactor to get this Content component to work.
 */
 class Content extends Component {
-  constructor(props) {
-    super(props);
-    // this.state = {
-    //   currentNote: {},
-    // };
-  }
   renderContent = () => {
     //console.log(this.props)
     if (this.props.editingNote && this.isNotePopulated()) {

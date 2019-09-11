@@ -17,12 +17,12 @@ class NoteContainer extends Component {
         name: "flatironschool"
       },
       searchQuery: "",
-      searchFilter: "all",
-      sortBy: "default"
+      searchFilter: "all",  // check search against body / title / all content
+      sortBy: "default" // sorting by name / created / updated
     };
   }
 
-  // #region FETCH requests
+  // #region FETCH requests <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   getNotes = () => {
     fetch("http://localhost:3000/api/v1/notes")
       .then(resp => {
@@ -68,7 +68,7 @@ class NoteContainer extends Component {
     const freshNote = {
       title: "Titulo Maximus",
       body: "Click -Edit- to add some LIFE to this poor, sorry note",
-      user: this.state.user
+      user: {...this.state.user}
     };
     fetch("http://localhost:3000/api/v1/notes", {
       method: "POST",
@@ -105,14 +105,15 @@ class NoteContainer extends Component {
   };
   // #endregion
 
-  // #region state-handlers
+  // #region state-handlers <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   handleSearchQuery = myQuery => {
+    // how can I get this to rerender after the filter changes in the search bar in realtime?
     this.setState({
       notes: this.state.allNotes.filter(note => {
         return this.state.searchFilter === "all"
-          ? note.title.toLowerCase().includes(myQuery) ||
-              note.body.toLowerCase().includes(myQuery)
-          : note[this.state.searchFilter].toLowerCase().includes(myQuery);
+          ? note.title.toLowerCase().includes(myQuery.toLowerCase()) ||
+              note.body.toLowerCase().includes(myQuery.toLowerCase())
+          : note[this.state.searchFilter].toLowerCase().includes(myQuery.toLowerCase());
       })
     });
   };
@@ -120,13 +121,16 @@ class NoteContainer extends Component {
   // I feel that I could refactor these into a larger, more reusable method/s
   handleNoteSorting = sortingMethod => {
     this.setState({ sortBy: sortingMethod });
-
   };
 
+  // filters the results from the search bar
+  // this needs work for a more responsive change
   setFilter = filterVal => {
-    this.setState({ searchFilter: filterVal });
+    console.log('changing filter to: ' + filterVal)
+    this.setState({ searchFilter: filterVal } , );
   };
 
+  // broke these out for the sake of management
   editNote = () => {
     this.setState({ editingNote: true });
   };
@@ -145,55 +149,24 @@ class NoteContainer extends Component {
     this.getNotes(); // get notes when the component mounts
   }
 
-  parseTime = timeToParse => {
-    //console.log(new Date(this.state.notes[0].created_at).getTime())
-    return new Date(timeToParse).getTime();
-  };
-  //#endregion
-  filterNotes = () => {
-    switch (this.state.sortBy) {
-      case "title":
-        return [...this.state.notes].sort((a, b) => {
-          return a.title.localeCompare(b.title);
-        });
-      case "created-at":
-        return [...this.state.notes].sort((a, b) => {
-          if (this.parseTime(a.created_at) < this.parseTime(b.created_at)) {
-            return 1;
-          } else {
-            return -1;
-          }
-        });
-      case "updated-at":
-          return [...this.state.notes].sort((a, b) => {
-            if (this.parseTime(a.updated_at) < this.parseTime(b.updated_at)) {
-              return 1;
-            } else {
-              return -1;
-            }
-          });
-      default:
-        return this.state.notes;
-    }
-  };
-
   render() {
     return (
       <Fragment>
         <Search
           handleSearchQuery={this.handleSearchQuery}
           setFilter={this.setFilter}
-          // handleNoteSorting={this.handleNoteSorting}
         />
         <div className="container">
           <Sidebar
-            notes={this.filterNotes()}
+            notes={this.state.notes}
             setSelectedNote={this.setSelectedNote}
             stopEditNote={this.stopEditNote}
             editingNote={this.state.editingNote}
             createNewNote={this.createNewNote}
             sortBy={this.state.sortBy}
             handleNoteSorting={this.handleNoteSorting}
+            searchFilter={this.state.searchFilter}
+            searchQuery={this.state.searchQuery}
           />
           <Content
             currentNote={this.state.currentNote}

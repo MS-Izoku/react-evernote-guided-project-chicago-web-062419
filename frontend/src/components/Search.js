@@ -1,22 +1,23 @@
 import React from 'react';
 
 const Search = (props) => {
-  function handleSeachQuery(event){
-    const handler = props.handleSearchQuery;
-    handler(event.target.value)
+  
+  const {handleSearchQuery , setFilter} = props
+
+  function handleSearchBar(event){
+    handleSearchQuery(event.target.value)
   }
 
+  // filters the results of the search query from the parent
   function handleFilter(event){
-    console.log(event.target.value)
-    const handler = props.setFilter;
-    handler(event.target.value);
+    setFilter(event.target.value)
+    //console.log(currentQuery + ' is current')
+    //handleSearchQuery(currentQuery)
+    
   }
 
-  // function handleSorting(event){
-  //   console.log(props)
-  //   const handler = props.handleNoteSorting
-  //   handler(event.target.value)
-  // }
+  // the search query needs to be resent after the filter goes off
+  // otherwise the sidebar will not refresh
 
   return (
     <div className="filter">
@@ -24,20 +25,16 @@ const Search = (props) => {
         id="search-bar"
         type="text"
         placeholder="Search Notes"
-        onChange={handleSeachQuery}
+        onChange={handleSearchBar}
       />
+      {/* <select id="filter-by" onChange={handleFilter}> */}
       <select id="filter-by" onChange={handleFilter}>
         <option value="all">--Filter--</option>
         <option value="title">Title</option>
-        <option value="tag">Tag</option>
+        <option value="body">Body</option>
       </select>
+      {/* <Editor editorState={'Allo'}/> */}
 
-      {/* <select id="sort-by" onChange={handleSorting}>
-        <option value="default">--Sort--</option>
-        <option value="created-at">Newest</option>
-        <option value="updated-at">Updated</option>
-        <option value="title">Title</option>
-      </select> */}
     </div>
   );
 }

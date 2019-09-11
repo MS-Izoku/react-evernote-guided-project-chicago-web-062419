@@ -5,6 +5,7 @@ const NoteList = props => {
   const renderAllNotes = () => {
     // console.log(props.notes)
     return props.notes.map(note => {
+      //if (note.includes(this.props.searchFilter))
       return (
         <NoteItem
           note={note}
