@@ -41,14 +41,16 @@ class Sidebar extends Component {
         return note
       }
     })
-    
+
+    console.log(noteArray)
+
     switch (this.props.sortBy) {
       case "title":
         return noteArray.sort((a, b) => {
           return a.title.localeCompare(b.title);
         });
       case "created-at":
-        return [...this.props.notes].sort((a, b) => {
+        return noteArray.sort((a, b) => {
           if (this.parseTime(a.created_at) < this.parseTime(b.created_at)) {
             return 1;
           } else {
@@ -56,7 +58,7 @@ class Sidebar extends Component {
           }
         });
       case "updated-at":
-          return [...this.props.notes].sort((a, b) => {
+          return noteArray.sort((a, b) => {
             if (this.parseTime(a.updated_at) < this.parseTime(b.updated_at)) {
               return 1;
             } else {

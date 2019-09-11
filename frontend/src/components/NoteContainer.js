@@ -108,26 +108,27 @@ class NoteContainer extends Component {
   // #region state-handlers <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   handleSearchQuery = myQuery => {
     // how can I get this to rerender after the filter changes in the search bar in realtime?
-    this.setState({
-      notes: this.state.allNotes.filter(note => {
-        return this.state.searchFilter === "all"
+    this.setState((prevState)=>{
+      const filteredNotes = prevState.allNotes.filter(note => {
+        return prevState.searchFilter === "all"
           ? note.title.toLowerCase().includes(myQuery.toLowerCase()) ||
               note.body.toLowerCase().includes(myQuery.toLowerCase())
-          : note[this.state.searchFilter].toLowerCase().includes(myQuery.toLowerCase());
+          : note[prevState.searchFilter].toLowerCase().includes(myQuery.toLowerCase());
       })
+      return {notes: filteredNotes , searchQuery: myQuery}
     });
   };
 
-  // I feel that I could refactor these into a larger, more reusable method/s
+
   handleNoteSorting = sortingMethod => {
     this.setState({ sortBy: sortingMethod });
   };
 
-  // filters the results from the search bar
-  // this needs work for a more responsive change
   setFilter = filterVal => {
     console.log('changing filter to: ' + filterVal)
-    this.setState({ searchFilter: filterVal } , );
+    this.setState({ searchFilter: filterVal } , ()=>{
+      this.handleSearchQuery(this.state.searchQuery)
+    });
   };
 
   // broke these out for the sake of management
