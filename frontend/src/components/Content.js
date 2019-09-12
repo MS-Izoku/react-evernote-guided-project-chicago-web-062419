@@ -3,16 +3,8 @@ import NoteEditor from "./NoteEditor";
 import NoteViewer from "./NoteViewer";
 import Instructions from "./Instructions";
 
-/*
-  Advice: If you cannot figure out how to get this component to work,
-          move the div and renderContent up into NoteContainer and
-          try to get it to work in the parent first.
-          Then complete the rest of your app before attempting to
-          refactor to get this Content component to work.
-*/
 class Content extends Component {
   renderContent = () => {
-    //console.log(this.props)
     if (this.props.editingNote && this.isNotePopulated()) {
       // if the note is blank AND the state is set to edit-mode
       return (
@@ -40,15 +32,6 @@ class Content extends Component {
   isNotePopulated = () => {
     return Object.keys(this.props.currentNote).length !== 0;
   };
-
-  // componentDidMount() {
-  //   this.setState({ currentNote: this.props.currentNote });
-  // }
-
-  // componentDidUpdate(prevState) {
-  //   if (this.state.currentNote !== prevState.currentNote)
-  //     this.setState({ currentNote: this.props.currentNote });
-  // }
 
   render() {
     return (

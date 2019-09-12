@@ -33,16 +33,16 @@ class Sidebar extends Component {
   sortNotes = () => { // actually a sort
     let noteArray = [...this.props.notes]
     noteArray.filter(note => {
-      if (this.props.searchFilter == "body") {
+      if (this.props.searchFilter === "body") {
         return note.body.includes(this.props.searchQuery)
-      } else if (this.props.searchFilter == "title") {
+      } else if (this.props.searchFilter === "title") {
         return note.title.includes(this.props.searchQuery)
       } else {
         return note
       }
     })
 
-    console.log(noteArray)
+    //console.log(noteArray)
 
     switch (this.props.sortBy) {
       case "title":

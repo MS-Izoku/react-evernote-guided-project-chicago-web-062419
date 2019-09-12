@@ -17,7 +17,7 @@ class NoteContainer extends Component {
         name: "flatironschool"
       },
       searchQuery: "",
-      searchFilter: "all",  // check search against body / title / all content
+      searchFilter: "all", // check search against body / title / all content
       sortBy: "default" // sorting by name / created / updated
     };
   }
@@ -29,7 +29,6 @@ class NoteContainer extends Component {
         return resp.json();
       })
       .then(json => {
-        // filter stuff here
         this.setState({ notes: json, allNotes: json });
       });
   };
@@ -68,7 +67,7 @@ class NoteContainer extends Component {
     const freshNote = {
       title: "Titulo Maximus",
       body: "Click -Edit- to add some LIFE to this poor, sorry note",
-      user: {...this.state.user}
+      user: { ...this.state.user }
     };
     fetch("http://localhost:3000/api/v1/notes", {
       method: "POST",
@@ -84,6 +83,13 @@ class NoteContainer extends Component {
       .then(json => {
         this.setState({ currentNote: json }); // doing this will view the newly created note
         this.getNotes();
+        
+        // is ^^  better than the below for rendering?
+
+        // this.setState({ // refactored this to save the fetch
+        //   currentNote: json,
+        //   notes: [...this.state.notes, json]
+        // });
       });
   };
 
@@ -107,27 +113,26 @@ class NoteContainer extends Component {
 
   // #region state-handlers <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   handleSearchQuery = myQuery => {
-    // how can I get this to rerender after the filter changes in the search bar in realtime?
-    this.setState((prevState)=>{
+    this.setState(prevState => {
       const filteredNotes = prevState.allNotes.filter(note => {
         return prevState.searchFilter === "all"
           ? note.title.toLowerCase().includes(myQuery.toLowerCase()) ||
               note.body.toLowerCase().includes(myQuery.toLowerCase())
-          : note[prevState.searchFilter].toLowerCase().includes(myQuery.toLowerCase());
-      })
-      return {notes: filteredNotes , searchQuery: myQuery}
+          : note[prevState.searchFilter]
+              .toLowerCase()
+              .includes(myQuery.toLowerCase());
+      });
+      return { notes: filteredNotes, searchQuery: myQuery };
     });
   };
-
 
   handleNoteSorting = sortingMethod => {
     this.setState({ sortBy: sortingMethod });
   };
 
   setFilter = filterVal => {
-    console.log('changing filter to: ' + filterVal)
-    this.setState({ searchFilter: filterVal } , ()=>{
-      this.handleSearchQuery(this.state.searchQuery)
+    this.setState({ searchFilter: filterVal }, () => {
+      this.handleSearchQuery(this.state.searchQuery);
     });
   };
 
